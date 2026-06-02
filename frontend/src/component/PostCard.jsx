@@ -4,9 +4,7 @@ import { toast } from "react-toastify";
 
 export default function PostCard({ item }) {
   const [likes, setLikes] = useState(item?.likes || []);
-
   const [comments, setComments] = useState(item?.comments || []);
-
   const [text, setText] = useState("");
 
   const login = localStorage.getItem("login");
@@ -21,10 +19,13 @@ export default function PostCard({ item }) {
         return;
       }
 
-      const { data } = await baseUrl.put(`/like/${item._id}`, { userId });
+      const { data } = await baseUrl.put(`/like/${item._id}`, {
+        userId,
+      });
 
       if (data.success) {
         setLikes(data.likes);
+        window.location.reload(); // reload after like
       }
     } catch (error) {
       console.log(error.response?.data);
@@ -53,6 +54,9 @@ export default function PostCard({ item }) {
         setComments(data.comments);
         setText("");
         toast.success(data.message);
+
+        // reload after comment
+        window.location.reload();
       }
     } catch (error) {
       console.log(error.response?.data);
@@ -65,7 +69,7 @@ export default function PostCard({ item }) {
       <div className="d-flex align-items-center mb-3">
         <img
           src="https://i.pravatar.cc/40"
-          alt=""
+          alt="user"
           width="40"
           height="40"
           className="rounded-circle"
@@ -122,7 +126,7 @@ export default function PostCard({ item }) {
       <div className="mt-3">
         {comments?.map((c) => (
           <div key={c._id} className="border rounded p-2 mb-2">
-            <strong>{c?.userId?.name}</strong>
+            <strong>{c?.userId?.name || "User"}</strong>
 
             <p className="mb-0">{c.text}</p>
           </div>
