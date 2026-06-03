@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { baseUrl1 } from "../AxiosR";
+import { baseUrl } from "../../Axios";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export default function Navbar() {
     if (!search.trim()) return;
 
     try {
-      const { data } = await baseUrl1.get(`/search?query=${search}`);
+      const { data } = await baseUrl.get(`/search?query=${search}`);
 
       console.log(data);
 
