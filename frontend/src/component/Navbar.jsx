@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { baseUrl2 } from "../AxiosR"; // apna axios import
 
 export default function Navbar() {
   const navigate = useNavigate();
+
+  const [search, setSearch] = useState("");
 
   const login = localStorage.getItem("login");
   const name = localStorage.getItem("name");
@@ -10,8 +13,27 @@ export default function Navbar() {
   const logoutUser = () => {
     localStorage.removeItem("login");
     localStorage.removeItem("name");
-
     navigate("/login");
+  };
+
+  // Search Function
+  const handleSearch = async (e) => {
+    e.preventDefault();
+
+    if (!search.trim()) return;
+
+    try {
+      const { data } = await baseUrl2.get(`/search?query=${search}`);
+
+      console.log(data);
+
+      // search result page par bhejna
+      navigate("/search", {
+        state: data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -23,13 +45,17 @@ export default function Navbar() {
         </Link>
 
         {/* Search */}
-        <div className="w-50">
+        <form className="w-50 d-flex" onSubmit={handleSearch}>
           <input
             type="text"
             placeholder="Search..."
             className="form-control rounded-pill"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
-        </div>
+
+          <button className="btn btn-primary ms-2">Search</button>
+        </form>
 
         {/* Right */}
         <div className="d-flex gap-2 align-items-center">

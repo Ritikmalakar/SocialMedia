@@ -141,3 +141,19 @@ export async function commentPost(req, res) {
     });
   }
 }
+export const searchUser = async (req, res) => {
+  try {
+    const { query } = req.query;
+
+    const users = await User.find({
+      name: { $regex: query, $options: "i" },
+    });
+
+    res.status(200).send({
+      success: true,
+      users,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

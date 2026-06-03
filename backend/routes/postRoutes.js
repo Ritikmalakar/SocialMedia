@@ -1,5 +1,5 @@
 import express from 'express';
-import { commentPost, createPost, getAll, likePost } from '../controller/PostController.js';
+import { commentPost, createPost, getAll, likePost, searchUser } from '../controller/PostController.js';
 import upload from '../middleware/upload.js';
 
 
@@ -12,6 +12,7 @@ router.put(
   "/like/:id",
 likePost
 );
+router.get("/search", searchUser);
 
 router.post( "/comment/:id", commentPost );
 export default router;
