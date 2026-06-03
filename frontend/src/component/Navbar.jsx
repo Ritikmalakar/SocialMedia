@@ -12,7 +12,6 @@ export default function Navbar() {
     localStorage.removeItem("name");
 
     navigate("/login");
-    window.location.reload();
   };
 
   return (
@@ -36,12 +35,6 @@ export default function Navbar() {
         <div className="d-flex gap-2 align-items-center">
           {login ? (
             <>
-              <img
-                src="https://i.pravatar.cc/40"
-                alt=""
-                className="rounded-circle"
-              />
-
               <span>{name}</span>
 
               <button className="btn btn-danger" onClick={logoutUser}>
