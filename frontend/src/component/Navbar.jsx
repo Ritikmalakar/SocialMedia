@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { baseUrl2 } from "../AxiosR"; // apna axios import
+import { baseUrl1 } from "../AxiosR";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -23,11 +23,10 @@ export default function Navbar() {
     if (!search.trim()) return;
 
     try {
-      const { data } = await baseUrl2.get(`/search?query=${search}`);
+      const { data } = await baseUrl1.get(`/search?query=${search}`);
 
       console.log(data);
 
-      // search result page par bhejna
       navigate("/search", {
         state: data,
       });
@@ -48,7 +47,7 @@ export default function Navbar() {
         <form className="w-50 d-flex" onSubmit={handleSearch}>
           <input
             type="text"
-            placeholder="Search..."
+            placeholder="Search user..."
             className="form-control rounded-pill"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
